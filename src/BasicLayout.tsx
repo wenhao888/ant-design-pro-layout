@@ -23,13 +23,12 @@ import getLocales, { localeType } from './locales';
 import { BaseMenuProps } from './SiderMenu/BaseMenu';
 import Footer from './Footer';
 import RouteContext from './RouteContext';
-import SiderMenu from './SiderMenu';
 import { SiderMenuProps } from './SiderMenu/SiderMenu';
 import { getBreadcrumbProps } from './utils/getBreadcrumbProps';
 import getMenuData from './utils/getMenuData';
 import { isBrowser } from './utils/utils';
 
-const { Content } = Layout;
+const { Content, Sider} = Layout;
 
 const query = {
   'screen-xs': {
@@ -104,18 +103,24 @@ const footerRender = (props: BasicLayoutProps): React.ReactNode => {
 };
 
 const renderSiderMenu = (props: BasicLayoutProps): React.ReactNode => {
-  const { layout, isMobile, menuRender } = props;
+  const { layout, isMobile } = props;
   if (props.menuRender === false) {
     return null;
   }
   if (layout === 'topmenu' && !isMobile) {
     return null;
   }
-  if (menuRender) {
-    return menuRender(props, <SiderMenu {...props} />);
-  }
 
-  return <SiderMenu {...props} {...props.menuProps} />;
+  return (
+    <Sider>
+      Sider
+    </Sider>
+  )
+  // if (menuRender) {
+  //   return menuRender(props, <SiderMenu {...props} />);
+  // }
+  //
+  // return <SiderMenu {...props} {...props.menuProps} />;
 };
 
 const defaultPageTitleRender = (
