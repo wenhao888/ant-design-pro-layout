@@ -6,6 +6,7 @@
     "/lib",
     "/es"
   ],
+  "access": "public",
   "sideEffects": false,
   "main": "lib/index.js",
   "module": "es/index.esm.js",
