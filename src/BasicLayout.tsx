@@ -23,13 +23,13 @@ import getLocales, { localeType } from './locales';
 import { BaseMenuProps } from './SiderMenu/BaseMenu';
 import Footer from './Footer';
 import RouteContext from './RouteContext';
-//import SiderMenu from './SiderMenu';
+import SiderMenu from './SiderMenu';
 import { SiderMenuProps } from './SiderMenu/SiderMenu';
 import { getBreadcrumbProps } from './utils/getBreadcrumbProps';
 import getMenuData from './utils/getMenuData';
 import { isBrowser } from './utils/utils';
 
-const { Content,Sider } = Layout;
+const { Content } = Layout;
 
 const query = {
   'screen-xs': {
@@ -104,7 +104,7 @@ const footerRender = (props: BasicLayoutProps): React.ReactNode => {
 };
 
 const renderSiderMenu = (props: BasicLayoutProps): React.ReactNode => {
-  const { layout, isMobile } = props;
+  const { layout, isMobile, menuRender} = props;
   if (props.menuRender === false) {
     return null;
   }
@@ -112,17 +112,11 @@ const renderSiderMenu = (props: BasicLayoutProps): React.ReactNode => {
     return null;
   }
 
-  return (
-    <Sider>
-      sider
-    </Sider>
-  )
+  if (menuRender) {
+     return (<SiderMenu {...props} menRender={menuRender}/>);
+  }
 
-  // if (menuRender) {
-  //   return menuRender(props, <SiderMenu {...props} />);
-  // }
-  //
-  // return <SiderMenu {...props} {...props.menuProps} />;
+  return <SiderMenu {...props} {...props.menuProps} />;
 };
 
 const defaultPageTitleRender = (

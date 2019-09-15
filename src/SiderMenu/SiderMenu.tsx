@@ -1,20 +1,20 @@
-import React, { Component } from 'react';
-import { Layout } from 'antd';
+import React, {Component} from 'react';
+import {Layout} from 'antd';
 import classNames from 'classnames';
-import { MenuProps } from 'antd/lib/menu';
+import {MenuProps} from 'antd/lib/menu';
 
 import './index.less';
-import { WithFalse } from '../typings';
-import BaseMenu, { BaseMenuProps } from './BaseMenu';
-import { getDefaultCollapsedSubMenus } from './SiderMenuUtils';
+import {WithFalse} from '../typings';
+import BaseMenu, {BaseMenuProps} from './BaseMenu';
+import {getDefaultCollapsedSubMenus} from './SiderMenuUtils';
 
-const { Sider } = Layout;
+const {Sider} = Layout;
 
 let firstMount = true;
 
 export const defaultRenderLogo = (logo: React.ReactNode): React.ReactNode => {
   if (typeof logo === 'string') {
-    return <img src={logo} alt="logo" />;
+    return <img src={logo} alt="logo"/>;
   }
   if (typeof logo === 'function') {
     return logo();
@@ -22,11 +22,9 @@ export const defaultRenderLogo = (logo: React.ReactNode): React.ReactNode => {
   return logo;
 };
 
-export const defaultRenderLogoAndTitle = (
-  logo: React.ReactNode,
-  title: React.ReactNode,
-  menuHeaderRender: SiderMenuProps['menuHeaderRender'],
-): React.ReactNode => {
+export const defaultRenderLogoAndTitle = (logo: React.ReactNode,
+                                          title: React.ReactNode,
+                                          menuHeaderRender: SiderMenuProps['menuHeaderRender'],): React.ReactNode => {
   if (menuHeaderRender === false) {
     return null;
   }
@@ -48,9 +46,7 @@ export interface SiderMenuProps
   extends Pick<BaseMenuProps, Exclude<keyof BaseMenuProps, ['onCollapse']>> {
   logo?: React.ReactNode;
   siderWidth?: number;
-  menuHeaderRender?: WithFalse<
-    (logo: React.ReactNode, title: React.ReactNode) => React.ReactNode
-  >;
+  menuHeaderRender?: WithFalse<(logo: React.ReactNode, title: React.ReactNode) => React.ReactNode>;
   onMenuHeaderClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
 
   /**
@@ -65,10 +61,8 @@ interface SiderMenuState {
   flatMenuKeysLen?: number;
 }
 
-export default class SiderMenu extends Component<
-  SiderMenuProps,
-  SiderMenuState
-> {
+export default class SiderMenu extends Component<SiderMenuProps,
+  SiderMenuState> {
   static defaultProps: Partial<SiderMenuProps> = {
     flatMenuKeys: [],
     isMobile: false,
@@ -76,12 +70,10 @@ export default class SiderMenu extends Component<
     menuData: [],
   };
 
-  static getDerivedStateFromProps(
-    props: SiderMenuProps,
-    state: SiderMenuState,
-  ): SiderMenuState | null {
-    const { pathname, flatMenuKeysLen } = state;
-    const { location = { pathname: '/' }, flatMenuKeys = [] } = props;
+  static getDerivedStateFromProps(props: SiderMenuProps,
+                                  state: SiderMenuState,): SiderMenuState | null {
+    const {pathname, flatMenuKeysLen} = state;
+    const {location = {pathname: '/'}, flatMenuKeys = []} = props;
     if (
       location.pathname !== pathname ||
       flatMenuKeys.length !== flatMenuKeysLen
@@ -107,7 +99,7 @@ export default class SiderMenu extends Component<
   }
 
   isMainMenu: (key: string) => boolean = key => {
-    const { menuData = [] } = this.props;
+    const {menuData = []} = this.props;
     return menuData.some(item => {
       if (key) {
         return item.key === key || item.path === key;
@@ -117,7 +109,7 @@ export default class SiderMenu extends Component<
   };
 
   handleOpenChange: (openKeys: string[]) => void = openKeys => {
-    const { onOpenChange, openKeys: defaultOpenKeys } = this.props;
+    const {onOpenChange, openKeys: defaultOpenKeys} = this.props;
     if (onOpenChange) {
       onOpenChange(openKeys);
       return;
@@ -133,7 +125,7 @@ export default class SiderMenu extends Component<
         openKeys: [openKeys.pop()].filter(item => item) as string[],
       });
     } else {
-      this.setState({ openKeys: [...openKeys] });
+      this.setState({openKeys: [...openKeys]});
     }
   };
 
@@ -150,14 +142,15 @@ export default class SiderMenu extends Component<
       title,
       menuHeaderRender: renderLogoAndTitle,
       onMenuHeaderClick,
+      menuRender
     } = this.props;
-    const { openKeys } = this.state;
+    const {openKeys} = this.state;
 
     // 如果收起，并且为顶部布局，openKeys 为 false 都不控制 openKeys
     const defaultProps =
       collapsed || layout !== 'sidemenu' || openKeys === false
         ? {}
-        : { openKeys };
+        : {openKeys};
 
     const siderClassName = classNames('ant-pro-sider-menu-sider', {
       'fix-sider-bar': fixSiderbar,
@@ -188,15 +181,18 @@ export default class SiderMenu extends Component<
         >
           {defaultRenderLogoAndTitle(logo, title, renderLogoAndTitle)}
         </div>
-        <BaseMenu
-          {...this.props}
-          mode="inline"
-          handleOpenChange={this.handleOpenChange}
-          onOpenChange={this.handleOpenChange}
-          style={{ padding: '16px 0', width: '100%' }}
-          {...defaultProps}
-          {...this.props.menuProps}
-        />
+        {menuRender ?
+          menuRender()
+          :
+          <BaseMenu
+            {...this.props}
+            mode="inline"
+            handleOpenChange={this.handleOpenChange}
+            onOpenChange={this.handleOpenChange}
+            style={{padding: '16px 0', width: '100%'}}
+            {...defaultProps}
+            {...this.props.menuProps}
+          />}
       </Sider>
     );
   }
