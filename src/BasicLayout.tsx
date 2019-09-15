@@ -29,7 +29,7 @@ import { getBreadcrumbProps } from './utils/getBreadcrumbProps';
 import getMenuData from './utils/getMenuData';
 import { isBrowser } from './utils/utils';
 
-const { Content } = Layout;
+const { Content,Sider } = Layout;
 
 const query = {
   'screen-xs': {
@@ -111,11 +111,18 @@ const renderSiderMenu = (props: BasicLayoutProps): React.ReactNode => {
   if (layout === 'topmenu' && !isMobile) {
     return null;
   }
-  if (menuRender) {
-    return menuRender(props, <SiderMenu {...props} />);
-  }
 
-  return <SiderMenu {...props} {...props.menuProps} />;
+  return (
+    <Sider>
+      sider
+    </Sider>
+  )
+
+  // if (menuRender) {
+  //   return menuRender(props, <SiderMenu {...props} />);
+  // }
+  //
+  // return <SiderMenu {...props} {...props.menuProps} />;
 };
 
 const defaultPageTitleRender = (
