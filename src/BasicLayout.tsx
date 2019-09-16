@@ -23,7 +23,7 @@ import getLocales, { localeType } from './locales';
 import { BaseMenuProps } from './SiderMenu/BaseMenu';
 import Footer from './Footer';
 import RouteContext from './RouteContext';
-import SiderMenu from './SiderMenu';
+//import SiderMenu from './SiderMenu';
 import { SiderMenuProps } from './SiderMenu/SiderMenu';
 import { getBreadcrumbProps } from './utils/getBreadcrumbProps';
 import getMenuData from './utils/getMenuData';
@@ -104,19 +104,8 @@ const footerRender = (props: BasicLayoutProps): React.ReactNode => {
 };
 
 const renderSiderMenu = (props: BasicLayoutProps): React.ReactNode => {
-  const { layout, isMobile, menuRender} = props;
-  if (props.menuRender === false) {
-    return null;
-  }
-  if (layout === 'topmenu' && !isMobile) {
-    return null;
-  }
-
-  if (menuRender) {
-    return  menuRender(props, null)
-  }
-
-  return <SiderMenu {...props} {...props.menuProps} />;
+  const { menuRender} = props;
+  return  menuRender && menuRender(props, null)
 };
 
 const defaultPageTitleRender = (
