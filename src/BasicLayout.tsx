@@ -2,14 +2,14 @@ import './BasicLayout.less';
 
 import React, { useState } from 'react';
 import { BreadcrumbProps as AntdBreadcrumbProps } from 'antd/es/breadcrumb';
-import { ContainerQuery } from 'react-container-query';
+//import { ContainerQuery } from 'react-container-query';
 import DocumentTitle from 'react-document-title';
 import { Layout } from 'antd';
-import classNames from 'classnames';
+//import classNames from 'classnames';
 import useMedia from 'react-media-hook2';
 import warning from 'warning';
 
-import Header, { HeaderViewProps } from './Header';
+import { HeaderViewProps } from './Header';
 import {
   MenuDataItem,
   MessageDescriptor,
@@ -21,40 +21,40 @@ import defaultGetPageTitle, { GetPageTitleProps } from './getPageTitle';
 import defaultSettings, { Settings } from './defaultSettings';
 import getLocales, { localeType } from './locales';
 import { BaseMenuProps } from './SiderMenu/BaseMenu';
-import Footer from './Footer';
-import RouteContext from './RouteContext';
+//import Footer from './Footer';
+//import RouteContext from './RouteContext';
 //import SiderMenu from './SiderMenu';
 import { SiderMenuProps } from './SiderMenu/SiderMenu';
-import { getBreadcrumbProps } from './utils/getBreadcrumbProps';
+//import { getBreadcrumbProps } from './utils/getBreadcrumbProps';
 import getMenuData from './utils/getMenuData';
 import { isBrowser } from './utils/utils';
 
-const { Content } = Layout;
+const { Content,Header, Footer} = Layout;
 
-const query = {
-  'screen-xs': {
-    maxWidth: 575,
-  },
-  'screen-sm': {
-    minWidth: 576,
-    maxWidth: 767,
-  },
-  'screen-md': {
-    minWidth: 768,
-    maxWidth: 991,
-  },
-  'screen-lg': {
-    minWidth: 992,
-    maxWidth: 1199,
-  },
-  'screen-xl': {
-    minWidth: 1200,
-    maxWidth: 1599,
-  },
-  'screen-xxl': {
-    minWidth: 1600,
-  },
-};
+// const query = {
+//   'screen-xs': {
+//     maxWidth: 575,
+//   },
+//   'screen-sm': {
+//     minWidth: 576,
+//     maxWidth: 767,
+//   },
+//   'screen-md': {
+//     minWidth: 768,
+//     maxWidth: 991,
+//   },
+//   'screen-lg': {
+//     minWidth: 992,
+//     maxWidth: 1199,
+//   },
+//   'screen-xl': {
+//     minWidth: 1200,
+//     maxWidth: 1599,
+//   },
+//   'screen-xxl': {
+//     minWidth: 1600,
+//   },
+// };
 
 export interface BasicLayoutProps
   extends Partial<RouterTypes<Route>>,
@@ -86,22 +86,22 @@ export interface BasicLayoutProps
   disableMobile?: boolean;
 }
 
-const headerRender = (props: BasicLayoutProps): React.ReactNode => {
-  if (props.headerRender === false) {
-    return null;
-  }
-  return <Header {...props} />;
-};
-
-const footerRender = (props: BasicLayoutProps): React.ReactNode => {
-  if (props.footerRender === false) {
-    return null;
-  }
-  if (props.footerRender) {
-    return props.footerRender({ ...props }, <Footer />);
-  }
-  return <Footer />;
-};
+// const headerRender = (props: BasicLayoutProps): React.ReactNode => {
+//   if (props.headerRender === false) {
+//     return null;
+//   }
+//   return <Header {...props} />;
+// };
+//
+// const footerRender = (props: BasicLayoutProps): React.ReactNode => {
+//   if (props.footerRender === false) {
+//     return null;
+//   }
+//   if (props.footerRender) {
+//     return props.footerRender({ ...props }, <Footer />);
+//   }
+//   return <Footer />;
+// };
 
 const renderSiderMenu = (props: BasicLayoutProps): React.ReactNode => {
   const { menuRender} = props;
@@ -129,9 +129,9 @@ const defaultPageTitleRender = (
   return defaultGetPageTitle(pageProps);
 };
 
-export type BasicLayoutContext = { [K in 'location']: BasicLayoutProps[K] } & {
-  breadcrumb: { [path: string]: MenuDataItem };
-};
+// export type BasicLayoutContext = { [K in 'location']: BasicLayoutProps[K] } & {
+//   breadcrumb: { [path: string]: MenuDataItem };
+// };
 
 function useCollapsed(
   collapsed: boolean | undefined,
@@ -155,30 +155,25 @@ function useCollapsed(
   return [nativeCollapsed, setCollapsed];
 }
 
-const getPaddingLeft = (
-  hasLeftPadding: boolean,
-  collapsed: boolean | undefined,
-  siderWidth: number,
-): number | undefined => {
-  if (hasLeftPadding) {
-    return collapsed ? 80 : siderWidth;
-  }
-  return undefined;
-};
+// const getPaddingLeft = (
+//   hasLeftPadding: boolean,
+//   collapsed: boolean | undefined,
+//   siderWidth: number,
+// ): number | undefined => {
+//   if (hasLeftPadding) {
+//     return collapsed ? 80 : siderWidth;
+//   }
+//   return undefined;
+// };
 
 const BasicLayout: React.FC<BasicLayoutProps> = props => {
   const {
-    children,
     onCollapse: propsOnCollapse,
     location = { pathname: '/' },
-    fixedHeader,
-    fixSiderbar,
     navTheme,
-    layout: PropsLayout,
     route = {
       routes: [],
     },
-    siderWidth = 256,
     menu,
     menuDataRender,
   } = props;
@@ -231,7 +226,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = props => {
 
   // If it is a fix menu, calculate padding
   // don't need padding in phone mode
-  const hasLeftPadding = fixSiderbar && PropsLayout !== 'topmenu' && !isMobile;
+  //const hasLeftPadding = fixSiderbar && PropsLayout !== 'topmenu' && !isMobile;
 
   // whether to close the menu
   const [collapsed, onCollapse] = useCollapsed(
@@ -256,69 +251,34 @@ const BasicLayout: React.FC<BasicLayoutProps> = props => {
   );
 
   // gen breadcrumbProps, parameter for pageHeader
-  const breadcrumbProps = getBreadcrumbProps({
-    ...props,
-    breadcrumb,
-  });
+  // const breadcrumbProps = getBreadcrumbProps({
+  //   ...props,
+  //   breadcrumb,
+  // });
 
   return (
     <DocumentTitle title={pageTitle}>
-      <ContainerQuery query={query}>
-        {params => (
-          <div className={classNames(params, 'ant-design-pro', 'basicLayout')}>
-            <Layout>
-              {renderSiderMenu({
-                ...defaultProps,
-                menuData,
-                onCollapse,
-                isMobile,
-                theme: navTheme,
-                collapsed,
-              })}
-              <Layout
-                style={{
-                  paddingLeft: getPaddingLeft(
-                    !!hasLeftPadding,
-                    collapsed,
-                    siderWidth,
-                  ),
-                  minHeight: '100vh',
-                }}
-              >
-                {headerRender({
-                  ...defaultProps,
-                  menuData,
-                  isMobile,
-                  collapsed,
-                  onCollapse,
-                })}
-                <Content
-                  className="ant-pro-basicLayout-content"
-                  style={!fixedHeader ? { paddingTop: 0 } : {}}
-                >
-                  <RouteContext.Provider
-                    value={{
-                      breadcrumb: breadcrumbProps,
-                      ...props,
-                      menuData,
-                      isMobile,
-                      collapsed,
-                      title: pageTitle.split('-')[0].trim(),
-                    }}
-                  >
-                    {children}
-                  </RouteContext.Provider>
-                </Content>
-                {footerRender({
-                  isMobile,
-                  collapsed,
-                  ...defaultProps,
-                })}
-              </Layout>
-            </Layout>
-          </div>
-        )}
-      </ContainerQuery>
+      <Layout style={{minHeight:'100vh'}}>
+        {renderSiderMenu({
+          ...defaultProps,
+          menuData,
+          onCollapse,
+          isMobile,
+          theme: navTheme,
+          collapsed,
+        })}
+        <Layout>
+          <Header>
+            header
+          </Header>
+            <Content>
+              content
+            </Content>
+            <Footer>
+              footer
+            </Footer>
+          </Layout>
+      </Layout>
     </DocumentTitle>
   );
 };
