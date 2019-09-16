@@ -29,7 +29,7 @@ import { getBreadcrumbProps } from './utils/getBreadcrumbProps';
 import getMenuData from './utils/getMenuData';
 import { isBrowser } from './utils/utils';
 
-const { Content, Sider } = Layout;
+const { Content } = Layout;
 
 const query = {
   'screen-xs': {
@@ -113,13 +113,7 @@ const renderSiderMenu = (props: BasicLayoutProps): React.ReactNode => {
   }
 
   if (menuRender) {
-    return  (
-      <Sider>
-      {
-        menuRender(props, <SiderMenu {...props} />)
-      }
-    </Sider>
-    )
+    return  menuRender(props, <SiderMenu {...props} />)
   }
 
   return <SiderMenu {...props} {...props.menuProps} />;
