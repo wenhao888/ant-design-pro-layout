@@ -141,8 +141,7 @@ export default class SiderMenu extends Component<SiderMenuProps,
       logo,
       title,
       menuHeaderRender: renderLogoAndTitle,
-      onMenuHeaderClick,
-      menuRender
+      onMenuHeaderClick
     } = this.props;
     const {openKeys} = this.state;
 
@@ -181,18 +180,16 @@ export default class SiderMenu extends Component<SiderMenuProps,
         >
           {defaultRenderLogoAndTitle(logo, title, renderLogoAndTitle)}
         </div>
-        {menuRender ?
-          menuRender()
-          :
-          <BaseMenu
-            {...this.props}
-            mode="inline"
-            handleOpenChange={this.handleOpenChange}
-            onOpenChange={this.handleOpenChange}
-            style={{padding: '16px 0', width: '100%'}}
-            {...defaultProps}
-            {...this.props.menuProps}
-          />}
+
+        <BaseMenu
+          {...this.props}
+          mode="inline"
+          handleOpenChange={this.handleOpenChange}
+          onOpenChange={this.handleOpenChange}
+          style={{padding: '16px 0', width: '100%'}}
+          {...defaultProps}
+          {...this.props.menuProps}
+        />
       </Sider>
     );
   }
