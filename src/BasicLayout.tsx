@@ -113,7 +113,7 @@ const renderSiderMenu = (props: BasicLayoutProps): React.ReactNode => {
   }
 
   if (menuRender) {
-    return  menuRender(props, <SiderMenu {...props} />)
+    return  menuRender(props, null)
   }
 
   return <SiderMenu {...props} {...props.menuProps} />;
